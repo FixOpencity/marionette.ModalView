@@ -11,16 +11,35 @@ var ModalView = Mn.LayoutView.extend( {
   events : {
     'click' : function ( e ) {
       if ( e.target === this.el || e.target === this.ui.close[0] ) {
-        this.destroy();
+        if ( this.onClose() ) {
+          this.destroy();
+          this.onClosed();
+        }
       }
     }
   },
 
-  initialize : function ( options ) { this.childView = options.childView; },
+  modelEvents : {
+    'change:title' : function ( m, title ) { this.ui.title.text( title ); }
+  },
+
+  initialize : function ( options ) {
+    this.childView = options.childView;
+    if ( options.onClose && typeof options.onClose === 'function' ) {
+      this.onClose = options.onClose;
+    }
+    if ( options.onClosed && typeof options.onClosed === 'function' ) {
+      this.onClose = options.onClosed;
+    }
+  },
 
   onRender : function () {
     this.ui.title.text( this.model.get( 'title' ) );
     this.showChildView( 'body', this.childView );
-  }
+  },
+
+  onClose : function () { return true; },
+
+  onClosed : function () {}
 
 } );
