@@ -29,7 +29,7 @@ var ModalView = Mn.LayoutView.extend( {
       this.onClose = options.onClose;
     }
     if ( options.onClosed && typeof options.onClosed === 'function' ) {
-      this.onClose = options.onClosed;
+      this.onClosed = options.onClosed;
     }
   },
 
