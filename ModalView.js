@@ -12,8 +12,10 @@ var ModalView = Mn.LayoutView.extend( {
     'click' : function ( e ) {
       if ( e.target === this.el || e.target === this.ui.close[0] ) {
         if ( this.onClose() ) {
+          this.trigger('before:close', this);
           this.destroy();
           this.onClosed();
+          this.trigger('after:close', this);
         }
       }
     }
